@@ -2,8 +2,19 @@
 webpack      = require 'webpack'
 autoprefixer = require 'autoprefixer'
 ExtractText  = require 'extract-text-webpack-plugin'
+flexibility   = require 'postcss-flexibility'
+
+# Autoprefixer config
+# https://github.com/ai/browserslist#queries
+autoprefixerBrowsers = [
+	'last 2 versions'
+	'ie >= 9'
+]
 
 config =
+	resolve:
+		root: "./src"
+
 	entry:
 		main: './src/main.coffee'
 
@@ -17,6 +28,12 @@ config =
 
 	module: {}
 
+	# Hook up the flexibility postcss plugin
+	postcss: -> plugins: [
+		flexibility
+		autoprefixer browsers: autoprefixerBrowsers
+	]
+
 config.module.loaders = [
 
 	# Coffeescript #
@@ -29,8 +46,21 @@ config.module.loaders = [
 	# adding autoprefixer in.
 	{
 		test: /\.styl$/
-		loader: ExtractText.extract ['css-loader?sourceMap','postcss-loader','stylus-loader?sourceMap'].join('!')
+		loader: ExtractText.extract [
+			'css-loader?sourceMap'
+			'postcss-loader'
+			'stylus-loader?sourceMap'
+			'prepend-string-loader?string[]=@require "definitions.styl";'
+		].join('!')
 	}
+
+	# Jade #
+	# Jade-loader reutrns a function. Apply-loader executes the function so we
+	# get a string back.
+	{ test: /\.jade$/, loader: 'apply-loader!jade-loader' }
+
+	# Vue #
+	{ test: /\.vue$/, loader: 'vue-loader' }
 ]
 
 config.plugins = [

@@ -1,4 +1,41 @@
 body {
-  background: #808080;
+  background: #594f4f;
+  color: #e0e0e0;
+  padding: 50px;
+}
+body * {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Rubik', cursive;
+  box-sizing: border-box;
+}
+p {
+  font-size: 18px;
+  margin: 0;
+  line-height: 1.3;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 10px 0;
+}
+.info {
+  text-align: center;
+}
+.fade-up-transition {
+  -ms-transform: translate(0, 0);
+      transform: translate(0, 0);
+  opacity: 1;
+  transition: all 700ms ease-in-out;
+}
+.fade-up-enter,
+.fade-up-leave {
+  -ms-transform: translate(0, 30px);
+      transform: translate(0, 30px);
+  opacity: 0;
 }
 /*# sourceMappingURL=src/main.css.map */
